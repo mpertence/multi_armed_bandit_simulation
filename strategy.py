@@ -7,15 +7,17 @@ class EpsilonGreedyStrategy(object):
     def __init__(self, epsilon):
         self.epsilon = epsilon
     def __str__(self):
-        return 'Epsilon-greedy Strategy'
+        return f'Epsilon-greedy {self.epsilon}'
     def choose(self, arms):
+        is_exploration = 0
         if np.random.rand() < self.epsilon:
             arm = np.random.choice(arms)
-            return arm
+            is_exploration = 1
+            return arm, is_exploration
         else:
             best_arm_index = np.argmax(arms)
             arm = arms[best_arm_index]
-            return arm
+            return arm, is_exploration
 
 class GreedyStrategy(EpsilonGreedyStrategy):
     """
@@ -25,7 +27,7 @@ class GreedyStrategy(EpsilonGreedyStrategy):
         super(GreedyStrategy, self).__init__(0)
 
     def __str__(self):
-        return 'greedy'
+        return 'Greedy'
 
 class RandomStrategy(EpsilonGreedyStrategy):
     """
@@ -35,4 +37,4 @@ class RandomStrategy(EpsilonGreedyStrategy):
         super(RandomStrategy, self).__init__(1)
 
     def __str__(self):
-        return 'greedy'
+        return 'Random'

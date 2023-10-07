@@ -5,13 +5,12 @@ class Bandit:
     self.arms = arms
     self.strategy = strategy
     self.steps = steps
+    self.explorations = []
 
-  def play(self):    
+  def play(self):
+    print(f"Playing {self.steps} times using {self.strategy} Strategy")    
     for step in range(self.steps):
-      if step <= 1000:
-        arm = np.random.choice(self.arms)
-        arm.run()
-      else:
-        arm = self.strategy.choose(self.arms)
+        arm, is_exploration = self.strategy.choose(self.arms)
+        self.explorations.append(is_exploration)
         arm.run()
 
