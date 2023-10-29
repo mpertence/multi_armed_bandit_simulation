@@ -38,3 +38,34 @@ class RandomStrategy(EpsilonGreedyStrategy):
 
     def __str__(self):
         return 'Random'
+    
+class UCB():
+    """
+    Always random arm
+    """
+    def __init__(self, confidence = 2):
+        self._confidence = confidence
+        self._steps = 1
+
+    def __str__(self):
+        return 'UCB - Upper Confidence Bound'
+
+    def get_arms_stats(self, arms):
+        arms_stats = [] 
+        arm_value = 0
+        for arm in arms:
+            total_runs = arm.total_views
+            arm_avg_reward = arm.avg_reward
+            t = self._steps #Total steps  
+            arm_uncertainty = self._confidence * (np.sqrt(np.log(t) / (total_runs + 0.1) ))
+            arm_value = arm_avg_reward + arm_uncertainty
+            arms_stats.append(arm_value)
+        return arms_stats
+    
+    def choose(self, arms):
+
+        arms_stats = self.get_arms_stats(arms)
+        best_arm_index = np.argmax(arms_stats)
+        arm = arms[best_arm_index]
+        self._steps += 1
+        return arm, 0
