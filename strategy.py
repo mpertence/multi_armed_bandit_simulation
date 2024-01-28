@@ -9,15 +9,13 @@ class EpsilonGreedyStrategy(object):
     def __str__(self):
         return f'Epsilon-greedy {self.epsilon}'
     def choose(self, arms):
-        is_exploration = 0
         if np.random.rand() < self.epsilon:
             arm = np.random.choice(arms)
-            is_exploration = 1
-            return arm, is_exploration
+            return arm
         else:
             best_arm_index = np.argmax(arms)
             arm = arms[best_arm_index]
-            return arm, is_exploration
+            return arm
 
 class GreedyStrategy(EpsilonGreedyStrategy):
     """
@@ -40,9 +38,6 @@ class RandomStrategy(EpsilonGreedyStrategy):
         return 'Random'
     
 class UCB():
-    """
-    Always random arm
-    """
     def __init__(self, confidence = 2):
         self._confidence = confidence
         self._steps = 1
@@ -68,4 +63,4 @@ class UCB():
         best_arm_index = np.argmax(arms_stats)
         arm = arms[best_arm_index]
         self._steps += 1
-        return arm, 0
+        return arm

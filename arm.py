@@ -1,6 +1,4 @@
-import random
 import numpy as np
-from statistics import mean 
 
     
 
@@ -22,11 +20,23 @@ class Arm:
     self.total_views = 0
 
   def __str__(self):
-    return f"{self.name} - total rewards: {self.total_reward} - Mean Rewards: {self.avg_reward} "
+    return f"{self.name}"
 
   def __gt__(self, other):
     return self.avg_reward > other.avg_reward
+  
+  def summary(self):
+    return f"{self.name} - total rewards: {self.total_reward} - Mean Rewards: {self.avg_reward}"
 
+  def reset(self):
+    self.views = []
+    self.clicks = []
+    self.purchases = []
+    self.rewards = []
+
+    self.total_reward = 0
+    self.avg_reward = 0
+    self.total_views = 0
 
   def run(self):
 

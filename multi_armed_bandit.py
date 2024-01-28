@@ -1,4 +1,3 @@
-import numpy as np
 from arm import Arm
 from bandit import Bandit
 from strategy import EpsilonGreedyStrategy, GreedyStrategy, RandomStrategy, UCB
