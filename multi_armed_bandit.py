@@ -2,20 +2,36 @@ from arm import Arm
 from bandit import Bandit
 from strategy import EpsilonGreedyStrategy, GreedyStrategy, RandomStrategy, UCB
 
+class MaB: 
+  def __init__(self, strategy):
+    self.strategy = strategy
+    self.bandit = 0
 
-tela_1 = Arm(name="tela_1", click_prob=0.1, purchase_prob=0.15)
-tela_2 = Arm(name="tela_2", click_prob=0.35, purchase_prob=0.08)
-tela_3 = Arm(name="tela_3", click_prob=0.35, purchase_prob=0.02)
+  def create_bandit(self):
+    self.bandit = Bandit(strategy=self.strategy)
+    return self.bandit
 
-arms = [tela_1,tela_2,tela_3]
-egreedy = EpsilonGreedyStrategy(epsilon=0.1)
-greedy = GreedyStrategy()
-random = RandomStrategy()
-upper_bound = UCB()
+  def create_arm(self, name, click_prob, purchase_prob, click_reward=1, purchase_reward=3):
+    arm = Arm(name, click_prob, purchase_prob)
+    self.bandit.add_arm(arm)
 
-bandit = Bandit(arms=arms, strategy=upper_bound, steps=1000)
+    
+  def reset_arms(self):
+    for arm in self.arms:
+        arm.reset()
+        
+  def get_total_reward(self):
+    total_reward = 0
+    for arm in self.arms:
+        total_reward += arm.total_reward
+    return total_reward
 
-bandit.play()
+  def get_best_arm(self):
+    best_arm_index = np.argmax(self.arms)
+    best_arm_instance = self.arms[best_arm_index]
+    return best_arm_instance
 
-for arm in bandit.arms:
-    print(arm)
+  def play(self):
+    arm = self.strategy.choose(self.arms)
+    arm.run()
+

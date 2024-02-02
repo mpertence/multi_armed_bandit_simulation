@@ -1,7 +1,5 @@
 import numpy as np
 
-    
-
 class Arm:
   def __init__(self, name, click_prob, purchase_prob, click_reward=1, purchase_reward=3):
     self.name = name
