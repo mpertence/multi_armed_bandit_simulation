@@ -14,7 +14,3 @@ class Bandit:
         arm = self.strategy.choose(arms)
         return arm
 
-    def play(self, arms):
-        arm = select_arm_to_run()
-        arm.run()
-
